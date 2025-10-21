@@ -11,8 +11,8 @@ import axios from "axios";
 
 async function AuthCheck() {
   try {
-    console.log(process.env);
-    const data = await axios({
+    // console.log(process.env);
+    const res = await axios({
       method: "GET",
       url: `${process.env.API_ENDPOINT}/wishlist`,
       headers: {
@@ -20,8 +20,7 @@ async function AuthCheck() {
         "ngrok-skip-browser-warning": true,
       },
     });
-    console.log(data);
-    if (data.data.length === 0) {
+    if (res.data.length === 0) {
       throw redirect("/");
     }
   } catch (error) {

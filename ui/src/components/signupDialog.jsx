@@ -20,7 +20,7 @@ export function SignupDialog({ showSigninDialog, showSignupDialog }) {
 
     axios({
       method: "POST",
-      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/signup",
+      url: `${process.env.API_ENDPOINT}/signup`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,

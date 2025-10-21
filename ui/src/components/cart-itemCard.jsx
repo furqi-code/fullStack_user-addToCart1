@@ -34,7 +34,7 @@ export function CartItem({ ...product }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "DELETE",
-          url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/eliminate",
+          url: `${process.env.API_ENDPOINT}/wishlist/eliminate`,
           headers: {
             Authorization: localStorage.getItem("userDetail"),
             "ngrok-skip-browser-warning": true,
@@ -58,7 +58,7 @@ export function CartItem({ ...product }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "PATCH",
-          url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/increase",
+          url: `${process.env.API_ENDPOINT}/wishlist/increase`,
           headers: {
             Authorization: localStorage.getItem("userDetail"),
             "ngrok-skip-browser-warning": true,
@@ -83,7 +83,7 @@ export function CartItem({ ...product }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "PATCH",
-          url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/decrease",
+          url: `${process.env.API_ENDPOINT}/wishlist/decrease`,
           headers: {
             Authorization: localStorage.getItem("userDetail"),
             "ngrok-skip-browser-warning": true,
