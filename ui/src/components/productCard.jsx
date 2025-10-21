@@ -21,9 +21,6 @@ export function Card({ product_id, name, description, MRP, img }) {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,
       },
-      headers: {
-        Authorization: localStorage.getItem("userDetail"),
-      },
     })
       .then((getResponse) => {
         dispatch({
@@ -43,9 +40,9 @@ export function Card({ product_id, name, description, MRP, img }) {
           method: "POST",
           url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist",
           headers: {
-        Authorization: localStorage.getItem("userDetail"),
-        "ngrok-skip-browser-warning": true,
-      },
+            Authorization: localStorage.getItem("userDetail"),
+            "ngrok-skip-browser-warning": true,
+          },
           params: {
             product_id,
           },
@@ -67,9 +64,9 @@ export function Card({ product_id, name, description, MRP, img }) {
           method: "PATCH",
           url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/increase",
           headers: {
-        Authorization: localStorage.getItem("userDetail"),
-        "ngrok-skip-browser-warning": true,
-      },
+            Authorization: localStorage.getItem("userDetail"),
+            "ngrok-skip-browser-warning": true,
+          },
           params: {
             product_id,
           },
@@ -92,9 +89,9 @@ export function Card({ product_id, name, description, MRP, img }) {
           method: "PATCH",
           url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/decrease",
           headers: {
-        Authorization: localStorage.getItem("userDetail"),
-        "ngrok-skip-browser-warning": true,
-      },
+            Authorization: localStorage.getItem("userDetail"),
+            "ngrok-skip-browser-warning": true,
+          },
           params: {
             product_id,
           },
