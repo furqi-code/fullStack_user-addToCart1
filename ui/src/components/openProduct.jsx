@@ -28,7 +28,11 @@ export function OpenItem() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:1111/products/oneItem",
+      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/products/oneItem",
+      headers: {
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
       params: {
         categoryName,
         productId,

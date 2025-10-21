@@ -16,7 +16,11 @@ export function ItemInput() {
     // (Admin) already inserted some products through mySql db 
     axios({
       method: "POST",
-      url: "http://localhost:1111/products",
+      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/products",
+      headers: {
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
       data: {
         product,
       },

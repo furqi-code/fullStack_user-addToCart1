@@ -27,10 +27,11 @@ export function Header() {
     if (isLoggedin) {
       axios({
         method: "GET",
-        url: "http://localhost:1111/wishlist",
+        url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist",
         headers: {
-          Authorization: localStorage.getItem("userDetail"),
-        },
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
       })
         .then((getResponse) => {
           dispatch({

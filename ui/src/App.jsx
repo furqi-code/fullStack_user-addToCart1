@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, redirect } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { HomePage } from "./components/homepage";
 import { CategoryComponent } from "./components/categoryComponent";
@@ -7,12 +7,33 @@ import { NotFound } from "./components/NotFound";
 import { ShowBag } from "./components/showBag";
 import { HomeDesign } from "./components/homeDesign";
 import { OpenItem } from "./components/openProduct";
+import axios from "axios";
+
+async function AuthCheck() {
+  try {
+    const data = await axios({
+      method: "GET",
+      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist",
+      headers: {
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
+    });
+    console.log(data);
+    if (data.data.length === 0) {
+      throw redirect("/");
+    }
+  } catch (error) {
+    throw redirect("/");
+  }
+}
 
 const routes = createBrowserRouter([
   {
     path: "/",
     Component: HomePage,
     errorElement: <NotFound />,
+
     children: [
       {
         index: true,
@@ -25,6 +46,7 @@ const routes = createBrowserRouter([
       {
         path: "/cartItems",
         Component: ShowBag,
+        loader: AuthCheck,
       },
       {
         path: "/:categoryName",

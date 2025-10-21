@@ -12,9 +12,10 @@ export function CartItem({ ...product }) {
   const getWishList = () => {
     axios({
       method: "GET",
-      url: "http://localhost:1111/wishlist",
+      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist",
       headers: {
         Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
       },
     })
       .then((getResponse) => {
@@ -33,10 +34,11 @@ export function CartItem({ ...product }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "DELETE",
-          url: "http://localhost:1111/wishlist/eliminate",
+          url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/eliminate",
           headers: {
-            Authorization: localStorage.getItem("userDetail"),
-          },
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
           params: {
             product_id,
           },
@@ -56,10 +58,11 @@ export function CartItem({ ...product }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "PATCH",
-          url: "http://localhost:1111/wishlist/increase",
+          url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/increase",
           headers: {
-            Authorization: localStorage.getItem("userDetail"),
-          },
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
           params: {
             product_id,
           },
@@ -80,10 +83,11 @@ export function CartItem({ ...product }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "PATCH",
-          url: "http://localhost:1111/wishlist/decrease",
+          url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/decrease",
           headers: {
-            Authorization: localStorage.getItem("userDetail"),
-          },
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
           params: {
             product_id,
           },

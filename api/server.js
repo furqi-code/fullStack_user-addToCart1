@@ -19,16 +19,14 @@ app.use(
     origin: "*",
   })
 );
-app.use(Auth);  
-
+app.use(Auth);
 
 // Route middlewares
 app.use("/signup", signup);
 app.use("/login", login);
 app.use("/forgotPassword", forgot);
 app.use("/products", item_operations);
-app.use('/wishlist', cart_operations);
-
+app.use("/wishlist", cart_operations);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);

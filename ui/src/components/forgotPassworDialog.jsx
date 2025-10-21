@@ -24,7 +24,11 @@ export function ForgotPassDialog({ showforgotPassDialog, showSigninDialog }) {
 
     axios({
       method: "PATCH",
-      url: "http://localhost:1111/forgotPassword",
+      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/forgotPassword",
+      headers: {
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
       data: {
         email,
         newPassword,

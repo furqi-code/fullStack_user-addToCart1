@@ -10,7 +10,11 @@ export function useProductslist(initialState, category) {
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:1111/products",
+      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/products",
+      headers: {
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
       params: {
         category,
       },
@@ -24,10 +28,11 @@ export function useProductslist(initialState, category) {
     if (isLoggedin) {
       axios({
         method: "GET",
-        url: "http://localhost:1111/wishlist",
+        url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist",
         headers: {
-          Authorization: localStorage.getItem("userDetail"),
-        },
+        Authorization: localStorage.getItem("userDetail"),
+        "ngrok-skip-browser-warning": true,
+      },
       })
         .then((getResponse) => {
           dispatch({
