@@ -1,14 +1,106 @@
-import { useContext } from "react";
-import { ProductContext } from "../store/productContext";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 export function Card({ product_id, name, description, MRP, img }) {
-  const { addToCart, increaseQnty, decreaseQnty, wishlist } =
-    useContext(ProductContext);
+  const isLoggedin = useSelector((state) => state.isLoggedin);
+  const wishlist = useSelector((state) => state.wishlist);
+  const dispatch = useDispatch();
+
   const addedCartItem = wishlist.find((item) => {
     if (item.product_id === product_id) {
       return item;
     }
   });
+
+  // after every operation get the fresh data from db
+  const getWishList = () => {
+    axios({
+      method: "GET",
+      url: "http://localhost:1111/wishlist",
+      headers: {
+        Authorization: localStorage.getItem("userDetail"),
+      },
+    })
+      .then((getResponse) => {
+        dispatch({
+          type: "getWishlist",
+          wishlist: getResponse.data,
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching wishlist:", error);
+      });
+  };
+
+  const collectItems = async (product_id) => {
+    try {
+      if (isLoggedin) {
+        const addToCartResponse = await axios({
+          method: "POST",
+          url: "http://localhost:1111/wishlist",
+          headers: {
+            Authorization: localStorage.getItem("userDetail"),
+          },
+          params: {
+            product_id,
+          },
+        });
+        console.log("Product added in your Cart:", addToCartResponse.data);
+        await getWishList();
+      } else {
+        alert("Kindly Login to add item in your cart");
+      }
+    } catch (err) {
+      console.log(`couldnt insert this product in wishlist`, err);
+    }
+  };
+
+  const increaseQnty = async (product_id) => {
+    try {
+      if (isLoggedin) {
+        const addToCartResponse = await axios({
+          method: "PATCH",
+          url: "http://localhost:1111/wishlist/increase",
+          headers: {
+            Authorization: localStorage.getItem("userDetail"),
+          },
+          params: {
+            product_id,
+          },
+        });
+        console.log(addToCartResponse.data);
+        await getWishList();
+      } else {
+        alert("Kindly Login to increase item in your cart");
+      }
+    } catch (err) {
+      console.log(`Error while increase Qnty`, err);
+      alert(err.response.data.message);
+    }
+  };
+
+  const decreaseQnty = async (product_id) => {
+    try {
+      if (isLoggedin) {
+        const addToCartResponse = await axios({
+          method: "PATCH",
+          url: "http://localhost:1111/wishlist/decrease",
+          headers: {
+            Authorization: localStorage.getItem("userDetail"),
+          },
+          params: {
+            product_id,
+          },
+        });
+        console.log(addToCartResponse.data);
+        await getWishList();
+      } else {
+        alert("Kindly Login to decrease item in your cart");
+      }
+    } catch (err) {
+      console.log(`couldnt decrease the quantity of this product`, err);
+    }
+  };
 
   return (
     <div class="card">
@@ -29,8 +121,8 @@ export function Card({ product_id, name, description, MRP, img }) {
             class="card-btn myBtn"
             onClick={async (e) => {
               e.preventDefault(); // Prevent Link navigation
-              e.stopPropagation(); // Prevent parent handlers (if any)  
-              await addToCart(product_id);
+              e.stopPropagation(); // Prevent parent handlers (if any)
+              await collectItems(product_id);
             }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -41,12 +133,16 @@ export function Card({ product_id, name, description, MRP, img }) {
             </svg>
           </button>
         ) : (
-          <div class="quantity" style={{ width: "90px" }} onClick={(e) => e.stopPropagation()}>
+          <div
+            class="quantity"
+            style={{ width: "90px" }}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               className="myBtn"
               onClick={async (e) => {
                 e.preventDefault(); // Prevent Link navigation
-                e.stopPropagation(); // Prevent parent handlers (if any) 
+                e.stopPropagation(); // Prevent parent handlers (if any)
                 await decreaseQnty(product_id);
               }}
             >

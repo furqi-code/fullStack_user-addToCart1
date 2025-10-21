@@ -14,7 +14,7 @@ export function OpenItem() {
   // this component has been made just to see the Details of the Product without user logged in
   // useEffect runs after initial render
   const product = productList[0] || {
-    img: "",
+    img: null,
     name: "",
     description: "",
     stock: 0,

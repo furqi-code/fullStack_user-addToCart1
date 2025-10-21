@@ -1,19 +1,50 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router";
-import { ProductContext } from "../store/productContext";
+import { useDispatch, useSelector } from "react-redux";
 
 export function Header() {
-  const { wishlist, getWishList, isLoggedin, setIsLoggedin, setWishList } =
-    useContext(ProductContext);
+  const isLoggedin = useSelector((state) => state.isLoggedin);  
+  const wishlist = useSelector((state) => state.wishlist);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  useEffect(() => { 
+
+  const logout = () => {
+    localStorage.removeItem("userDetail");
+    dispatch({
+      type: "activeUser",
+      status: false,
+    });
+    dispatch({
+      type: "getWishlist",
+      wishlist: [],   // array empty krde
+    });
+    navigate("/");
+  };
+
+  useEffect(() => {
     // after login header re-render nhi ho rha, reload krna pd rha
     if (isLoggedin) {
-      getWishList();
+      axios({
+        method: "GET",
+        url: "http://localhost:1111/wishlist",
+        headers: {
+          Authorization: localStorage.getItem("userDetail"),
+        },
+      })
+        .then((getResponse) => {
+          dispatch({
+            type: "getWishlist",
+            wishlist: getResponse.data,
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching wishlist:", error);
+        });
     }
   }, []);
   // isLoggedin state HomeDesign and other sibling components me bhi use ho rha tha & i cant share the state there
-  // so i had to lift the state Up and stored it in context
+  // so i had to lift the state Up and stored it in redux
 
   let totalCartItem = 0;
   wishlist.forEach((item) => {
@@ -54,12 +85,7 @@ export function Header() {
             {isLoggedin && (
               <button
                 className="text-gray-700 hover:text-slate-800 transition-colors cursor-pointer"
-                onClick={() => {
-                  localStorage.removeItem("userDetail");
-                  setIsLoggedin(false);
-                  setWishList([]); // array empty krde
-                  navigate("/");
-                }}
+                onClick={logout}
               >
                 Logout
               </button>

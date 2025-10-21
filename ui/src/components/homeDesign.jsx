@@ -1,14 +1,14 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { SignupDialog } from "./signupDialog";
 import { SigninDialog } from "./signinDialog";
 import { ForgotPassDialog } from "./forgotPassworDialog";
-import { ProductContext } from "../store/productContext";
+import { useSelector } from "react-redux";
 
 export function HomeDesign() {
   const [signupDialog, showSignupDialog] = useState(false);
   const [signinDialog, showSigninDialog] = useState(false);
   const [forgotPassDialog, showforgotPassDialog] = useState(false);
-  const { isLoggedin } = useContext(ProductContext);
+  const isLoggedin = useSelector((state) => state.isLoggedin)
 
   return (
     <>

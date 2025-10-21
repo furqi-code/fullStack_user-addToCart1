@@ -1,17 +1,27 @@
 import { createStore } from "redux";
 
-function storeReducer(
-  state = { cart: [], isAuth: false, userId: null },
-  action
-) {
+const initialState = {
+  wishlist: [], // from DB to get user's wishlist
+  isLoggedin: localStorage.getItem("userDetail") ? true : false,
+};
+
+function storeReducer(state = initialState, action) {
   switch (action.type) {
-    case "counter/incremented":
-      return { value: state.value + 1 };
-    case "counter/decremented":
-      return { value: state.value - 1 };
-    default:
-      return state;
+    case "activeUser":
+      return {
+        ...state,
+        isLoggedin: action.status,
+      };
+
+    case "getWishlist":
+      return {
+        ...state,
+        wishlist: action.wishlist,
+      };
   }
+  return state
 }
 
 export const store = createStore(storeReducer);
+
+console.log(store.getState());

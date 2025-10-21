@@ -1,14 +1,14 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { ProductContext } from "../store/productContext";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 export function SigninDialog({ showSignupDialog, showSigninDialog, showforgotPassDialog }) {
-  const { setIsLoggedin } = useContext(ProductContext);
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -31,7 +31,10 @@ export function SigninDialog({ showSignupDialog, showSigninDialog, showforgotPas
         localStorage.setItem("userDetail", res.data.token);
         setTimeout(() => {
           showSigninDialog(false);
-          setIsLoggedin(true);
+          dispatch({
+            type: "activeUser",
+            status: true, 
+          });
           navigate("/")}, 2000);
       })
       .catch(() => {

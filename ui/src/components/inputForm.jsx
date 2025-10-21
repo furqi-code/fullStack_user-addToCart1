@@ -1,8 +1,8 @@
-import { useContext, useRef } from "react";
-import { ProductContext } from "../store/productContext";
+import { useRef } from "react";
+import { Link } from "react-router";
+import axios from "axios";
 
 export function ItemInput() {
-  const { addItem, showSelectedPage } = useContext(ProductContext);
   const nameRef = useRef();
   const mrpRef = useRef();
   const categoryRef = useRef();
@@ -11,6 +11,24 @@ export function ItemInput() {
   const discount = Math.round(Math.random() * 77);
   const stock = Math.round(Math.random() * 14);
   const quantity = 1;
+
+  const addItem = (product) => {
+    // (Admin) already inserted some products through mySql db 
+    axios({
+      method: "POST",
+      url: "http://localhost:1111/products",
+      data: {
+        product,
+      },
+    })
+      .then((response) => {
+        console.log("Product added:", response.data);
+        alert("this Product is successfully added in the DB");
+      })
+      .catch((err) => {
+        console.log(`couldnt insert this product ${product.name}`, err);
+      });
+  };
 
   const insertItem = () => {
     const name = nameRef.current.value.trim();
@@ -133,13 +151,12 @@ export function ItemInput() {
             </div>
 
             <div className="flex justify-end gap-x-6">
-              <button
-                type="button"
+              <Link
+                to='/'
                 className="myBtn text-sm font-semibold text-gray-900 hover:text-gray-700"
-                onClick={() => showSelectedPage("homePage")}
               >
                 Cancel
-              </button>
+              </Link>
               <button
                 type="button"
                 className="myBtn rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

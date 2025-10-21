@@ -3,9 +3,9 @@ USE addToCart1;
 
 create table users(
 	user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
+  username VARCHAR(255) NOT NULL,
+  Email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE products (

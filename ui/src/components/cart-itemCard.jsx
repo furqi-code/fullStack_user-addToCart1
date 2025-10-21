@@ -1,14 +1,106 @@
-import { useContext } from "react";
-import {ProductContext} from "../store/productContext"
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import * as React from "react";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 
 export function CartItem({ ...product }) {
-  const { removefromCart, increaseQnty, decreaseQnty } = useContext(ProductContext);
+  const isLoggedin = useSelector((state) => state.isLoggedin);  
+  const dispatch = useDispatch();
+
+  // after every operation get the fresh data from db
+  const getWishList = () => {
+    axios({
+      method: "GET",
+      url: "http://localhost:1111/wishlist",
+      headers: {
+        Authorization: localStorage.getItem("userDetail"),
+      },
+    })
+      .then((getResponse) => {
+        dispatch({
+          type: "getWishlist",
+          wishlist: getResponse.data,
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching wishlist:", error);
+      });
+  };
+
+  const removefromCart = async (product_id) => {
+    try {
+      if (isLoggedin) {
+        const addToCartResponse = await axios({
+          method: "DELETE",
+          url: "http://localhost:1111/wishlist/eliminate",
+          headers: {
+            Authorization: localStorage.getItem("userDetail"),
+          },
+          params: {
+            product_id,
+          },
+        });
+        console.log(addToCartResponse.data);
+        await getWishList();
+      } else {
+        alert("Kindly Login to delete item in your cart");
+      }
+    } catch (err) {
+      console.log(`couldnt delete this product from wishlist`, err);
+    }
+  };
+
+  const increaseQnty = async (product_id) => {
+    try {
+      if (isLoggedin) {
+        const addToCartResponse = await axios({
+          method: "PATCH",
+          url: "http://localhost:1111/wishlist/increase",
+          headers: {
+            Authorization: localStorage.getItem("userDetail"),
+          },
+          params: {
+            product_id,
+          },
+        });
+        console.log(addToCartResponse.data);
+        await getWishList();
+      } else {
+        alert("Kindly Login to increase item in your cart");
+      }
+    } catch (err) {
+      console.log(`Error while increase Qnty`, err);
+      alert(err.response.data.message)
+    }
+  };
+
+  const decreaseQnty = async (product_id) => {
+    try {
+      if (isLoggedin) {
+        const addToCartResponse = await axios({
+          method: "PATCH",
+          url: "http://localhost:1111/wishlist/decrease",
+          headers: {
+            Authorization: localStorage.getItem("userDetail"),
+          },
+          params: {
+            product_id,
+          },
+        });
+        console.log(addToCartResponse.data);
+        await getWishList();
+      } else {
+        alert("Kindly Login to decrease item in your cart");
+      }
+    } catch (err) {
+      console.log(`couldnt decrease the quantity of this product`, err);
+    }
+  };
+
   let bill = product.quantity * (product.MRP - (product.discount / 100) * product.MRP);
   console.log(`Stock of ${product.name}: `, product.stock);
-  
+
   return (
     <div className="flex justify-between gap-14 py-8">
       <div>

@@ -5,15 +5,7 @@ import { useProductslist } from "../hooks/useProductlist";
 export function CategoryComponent() {
   const { categoryName } = useParams();
   console.log("category page: ", categoryName);
-
   const productList = useProductslist([], categoryName);
-
-  // const [searchParam, setSearchParams] = useSearchParams();
-  // console.log(searchParam.get("productId"));
-  // const data = useLoaderData();
-  // console.log(data);
-  // const cart = useSelector((state) => state.cart);
-  // const dispatch = useDispatch();
 
   return (
     <>

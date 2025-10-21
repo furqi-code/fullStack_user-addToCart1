@@ -1,10 +1,11 @@
-import { useState, useEffect, useContext } from "react";
-import { ProductContext } from "../store/productContext";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
 export function useProductslist(initialState, category) {
-  const { getWishList, isLoggedin } = useContext(ProductContext);
   const [productList, setProductlist] = useState(initialState);
+  const isLoggedin = useSelector((state) => state.isLoggedin);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios({
@@ -21,7 +22,22 @@ export function useProductslist(initialState, category) {
         console.log(`couldnt get products of ${category} page`, err);
       });
     if (isLoggedin) {
-      getWishList();
+      axios({
+        method: "GET",
+        url: "http://localhost:1111/wishlist",
+        headers: {
+          Authorization: localStorage.getItem("userDetail"),
+        },
+      })
+        .then((getResponse) => {
+          dispatch({
+            type: "getWishlist",
+            wishlist: getResponse.data,
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching wishlist:", error);
+        });
     }
   }, [category]);
 

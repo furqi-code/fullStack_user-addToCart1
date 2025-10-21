@@ -1,16 +1,34 @@
 import { CartItem } from "./cart-itemCard";
-import { useEffect, useContext } from "react";
-import { ProductContext } from "../store/productContext";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 export function ShowBag() {
-  const { getWishList, isLoggedin } = useContext(ProductContext);
+  const isLoggedin = useSelector((state) => state.isLoggedin);
+  const wishlist = useSelector((state) => state.wishlist);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (isLoggedin) {
-      getWishList();
+      axios({
+        method: "GET",
+        url: "http://localhost:1111/wishlist",
+        headers: {
+          Authorization: localStorage.getItem("userDetail"),
+        },
+      })
+        .then((getResponse) => {
+          dispatch({
+            type: "getWishlist",
+            wishlist: getResponse.data,
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching wishlist:", error);
+        });
     }
   }, []);
-
-  const { wishlist } = useContext(ProductContext);
+  
   if (wishlist.length === 0) {
     return (
       <>
