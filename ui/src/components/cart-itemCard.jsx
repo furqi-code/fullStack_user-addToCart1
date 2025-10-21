@@ -5,14 +5,14 @@ import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 
 export function CartItem({ ...product }) {
-  const isLoggedin = useSelector((state) => state.isLoggedin);  
+  const isLoggedin = useSelector((state) => state.isLoggedin);
   const dispatch = useDispatch();
 
   // after every operation get the fresh data from db
   const getWishList = () => {
     axios({
       method: "GET",
-      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist",
+      url: `${process.env.API_ENDPOINT}/wishlist`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,
@@ -36,9 +36,9 @@ export function CartItem({ ...product }) {
           method: "DELETE",
           url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/eliminate",
           headers: {
-        Authorization: localStorage.getItem("userDetail"),
-        "ngrok-skip-browser-warning": true,
-      },
+            Authorization: localStorage.getItem("userDetail"),
+            "ngrok-skip-browser-warning": true,
+          },
           params: {
             product_id,
           },
@@ -60,9 +60,9 @@ export function CartItem({ ...product }) {
           method: "PATCH",
           url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/increase",
           headers: {
-        Authorization: localStorage.getItem("userDetail"),
-        "ngrok-skip-browser-warning": true,
-      },
+            Authorization: localStorage.getItem("userDetail"),
+            "ngrok-skip-browser-warning": true,
+          },
           params: {
             product_id,
           },
@@ -74,7 +74,7 @@ export function CartItem({ ...product }) {
       }
     } catch (err) {
       console.log(`Error while increase Qnty`, err);
-      alert(err.response.data.message)
+      alert(err.response.data.message);
     }
   };
 
@@ -85,9 +85,9 @@ export function CartItem({ ...product }) {
           method: "PATCH",
           url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist/decrease",
           headers: {
-        Authorization: localStorage.getItem("userDetail"),
-        "ngrok-skip-browser-warning": true,
-      },
+            Authorization: localStorage.getItem("userDetail"),
+            "ngrok-skip-browser-warning": true,
+          },
           params: {
             product_id,
           },
@@ -102,13 +102,18 @@ export function CartItem({ ...product }) {
     }
   };
 
-  let bill = product.quantity * (product.MRP - (product.discount / 100) * product.MRP);
+  let bill =
+    product.quantity * (product.MRP - (product.discount / 100) * product.MRP);
   console.log(`Stock of ${product.name}: `, product.stock);
 
   return (
     <div className="flex justify-between gap-14 py-8">
       <div>
-        <img src={product.img} alt={product.name} className="w-150 object-contain" />
+        <img
+          src={product.img}
+          alt={product.name}
+          className="w-150 object-contain"
+        />
       </div>
       <div>
         <p className="text-lg">{product.description}</p>
@@ -188,7 +193,10 @@ export function CartItem({ ...product }) {
               ${bill.toFixed(2)}
             </span>
           </p>
-          <button className="myBtn" onClick={async () =>  await removefromCart(product.product_id)}>
+          <button
+            className="myBtn"
+            onClick={async () => await removefromCart(product.product_id)}
+          >
             <img
               src="https://png.pngtree.com/png-clipart/20210310/original/pngtree-silver-trash-bin-clipart-png-image_5947991.jpg"
               alt="Trash"

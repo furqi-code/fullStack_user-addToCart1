@@ -11,9 +11,10 @@ import axios from "axios";
 
 async function AuthCheck() {
   try {
+    console.log(process.env);
     const data = await axios({
       method: "GET",
-      url: "https://unidyllic-dryable-vincenzo.ngrok-free.dev/wishlist",
+      url: `${process.env.API_ENDPOINT}/wishlist`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,
