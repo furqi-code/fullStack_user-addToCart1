@@ -16,7 +16,7 @@ export function Card({ product_id, name, description, MRP, img }) {
   const getWishList = () => {
     axios({
       method: "GET",
-      url: `${process.env.API_ENDPOINT}/wishlist`,
+      url: `${process.env.REACT_APP_API_ENDPOINT}/wishlist`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,
@@ -38,7 +38,7 @@ export function Card({ product_id, name, description, MRP, img }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "POST",
-          url: `${process.env.API_ENDPOINT}/wishlist`,
+          url: `${process.env.REACT_APP_API_ENDPOINT}/wishlist`,
           headers: {
             Authorization: localStorage.getItem("userDetail"),
             "ngrok-skip-browser-warning": true,
@@ -62,7 +62,7 @@ export function Card({ product_id, name, description, MRP, img }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "PATCH",
-          url: `${process.env.API_ENDPOINT}/wishlist/increase`,
+          url: `${process.env.REACT_APP_API_ENDPOINT}/wishlist/increase`,
           headers: {
             Authorization: localStorage.getItem("userDetail"),
             "ngrok-skip-browser-warning": true,
@@ -87,7 +87,7 @@ export function Card({ product_id, name, description, MRP, img }) {
       if (isLoggedin) {
         const addToCartResponse = await axios({
           method: "PATCH",
-          url: `${process.env.API_ENDPOINT}/wishlist/decrease`,
+          url: `${process.env.REACT_APP_API_ENDPOINT}/wishlist/decrease`,
           headers: {
             Authorization: localStorage.getItem("userDetail"),
             "ngrok-skip-browser-warning": true,

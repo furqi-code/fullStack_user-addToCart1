@@ -28,7 +28,7 @@ export function OpenItem() {
   useEffect(() => {
     axios({
       method: "GET",
-      url: `${process.env.API_ENDPOINT}/products/oneItem`,
+      url: `${process.env.REACT_APP_API_ENDPOINT}/products/oneItem`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,

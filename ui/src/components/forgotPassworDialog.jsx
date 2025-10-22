@@ -24,7 +24,7 @@ export function ForgotPassDialog({ showforgotPassDialog, showSigninDialog }) {
 
     axios({
       method: "PATCH",
-      url: `${process.env.API_ENDPOINT}/forgotPassword`,
+      url: `${process.env.REACT_APP_API_ENDPOINT}/forgotPassword`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,

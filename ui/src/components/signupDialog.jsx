@@ -20,7 +20,7 @@ export function SignupDialog({ showSigninDialog, showSignupDialog }) {
 
     axios({
       method: "POST",
-      url: `${process.env.API_ENDPOINT}/signup`,
+      url: `${process.env.REACT_APP_API_ENDPOINT}/signup`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,

@@ -16,7 +16,7 @@ export function ItemInput() {
     // (Admin) already inserted some products through mySql db 
     axios({
       method: "POST",
-      url: `${process.env.API_ENDPOINT}/products`,
+      url: `${process.env.REACT_APP_API_ENDPOINT}/products`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,

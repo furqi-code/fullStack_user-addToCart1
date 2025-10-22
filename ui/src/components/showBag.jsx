@@ -12,7 +12,7 @@ export function ShowBag() {
     if (isLoggedin) {
       axios({
         method: "GET",
-        url: `${process.env.API_ENDPOINT}/wishlist`,
+        url: `${process.env.REACT_APP_API_ENDPOINT}/wishlist`,
         headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,

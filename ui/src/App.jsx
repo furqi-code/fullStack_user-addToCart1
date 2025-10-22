@@ -14,7 +14,7 @@ async function AuthCheck() {
     // console.log(process.env);
     const res = await axios({
       method: "GET",
-      url: `${process.env.API_ENDPOINT}/wishlist`,
+      url: `${process.env.REACT_APP_API_ENDPOINT}/wishlist`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,

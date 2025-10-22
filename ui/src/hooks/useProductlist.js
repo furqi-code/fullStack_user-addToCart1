@@ -7,10 +7,12 @@ export function useProductslist(initialState, category) {
   const isLoggedin = useSelector((state) => state.isLoggedin);
   const dispatch = useDispatch();
 
+  
+  console.log("use product list chala yah aar");
   useEffect(() => {
     axios({
       method: "GET",
-      url: `${process.env.API_ENDPOINT}/products`,
+      url: `${process.env.REACT_APP_API_ENDPOINT}/products`,
       headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,
@@ -28,7 +30,7 @@ export function useProductslist(initialState, category) {
     if (isLoggedin) {
       axios({
         method: "GET",
-        url: `${process.env.API_ENDPOINT}/wishlist`,
+        url: `${process.env.REACT_APP_API_ENDPOINT}/wishlist`,
         headers: {
         Authorization: localStorage.getItem("userDetail"),
         "ngrok-skip-browser-warning": true,
